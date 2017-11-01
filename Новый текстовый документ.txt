@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" type="text/css" href="main.css">
+</head>
+<body>
+
+</body>
+</html>
+<?php
+
+if ( isset($_POST["submit"])) {
+
+$Q_A = $_POST["Q_A"];
+$Q_B = $_POST["Q_B"];
+$A_min = $_POST["A_min"];
+$A_max = $_POST["A_max"];
+$B_min = $_POST["B_min"];
+$B_max = $_POST["B_max"];
+$arr_A=array();
+$arr_B=array();
+for($i=0;$i<$Q_A;$i++){
+	$arr_A[$i]=rand($A_min,$A_max);
+}
+do{
+	$arr_A=array_unique($arr_A);
+	$r=count($arr_A);
+	if(!($r==$Q_A)){
+	$arr_A[]=rand($A_min,$A_max);
+	}	
+}while(!($r==$Q_A));
+// sort($arr_A); 
+//функция сортировки массивов
+// for($j=0;$j<count($arr_A)-1;$j++){
+// for ($i=0;$i<count($arr_A)-1;$i++){
+// 	if($arr_A[$i]>$arr_A[++$i]){
+// 		$var=$arr_A[$i];
+// 		$arr_A[$i]=$arr_A[++$i];
+// 		$arr_A[++$i]=$var;
+// 	}}
+// }
+ echo "<div class=\"result\">";
+
+ echo" Множество A : ";
+foreach ( $arr_A as $key => $value) {
+	echo "[$value] ";
+}
+echo "<BR>Количество элементов множества  A = $Q_A <BR>";
+for($i=0; $i<$Q_B; $i++){
+	$arr_B[$i]=rand($B_min,$B_max);
+}
+do{
+	$arr_B=array_unique($arr_B);
+	$r=count($arr_B);
+	if(!($r==$Q_B)){
+	$arr_B[]=rand($B_min,$B_max);
+	}	
+}while(!($r==$Q_B));
+// sort($arr_A);
+ sort($arr_B);
+ echo " <br>Множество B : ";
+foreach ( $arr_B as $key => $value) {
+	echo "[$value] ";
+}
+echo "<BR>Количество элементов множества  B = $Q_B <BR>";
+ $new_array=array();
+ // $new_array = array_intersect($arr_A, $arr_B);
+ $count_of_b=sizeof($arr_B);
+
+error_reporting(0);
+for ( $i=0; $i<sizeof($arr_A); $i++ ){
+	$x1=0;
+	$x2=sizeof($arr_B);
+	while($x1<=$x2) {
+		// if ($x1>$x2){
+		// echo	"Нет общих элементов";
+		// }
+		$m=(int)(($x2+$x1)/2);
+		if( $arr_A[$i]==$arr_B[$m] ) {	
+			$new_array[]=$arr_A[$i];
+			break;
+		}
+		elseif ($arr_B[$m]>$arr_A[$i]) {
+			$x2=$m-1;
+		}
+
+		else {
+			$x1=$m+1;
+		}
+	}
+}
+echo "Общие элементы в двух массивах :<br>";
+for ($i=0;$i<count($new_array);$i++){
+	echo $new_array[$i]." ";
+}
+echo " <br> Количество повторяющихся элементов : ";
+echo count($new_array);
+echo "</div>";
+
+}
+?>
+
+
+
+
+
+
+
+
+
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="main.css">
+	<title>lab_1</title>
+</head>
+<body>
+	<form action="query.php" method="POST">
+		<p>Введите количество элементов множества A : </p><input type="text" name="Q_A" required="required	"	>
+		<p>Введите количество элементов множества B : </p><input type="text" name="Q_B" required="required	">
+		<p>Введите минимальное значение для множества A : </p><input type="text" name="A_min" required="required	">
+		<p>Введите максимальное значение для множества A : </p><input type="text" name="A_max" required="required	">
+		<p>Введите минимальное значение для множества B : </p><input type="text" name="B_min" required="required	">
+		<p>Введите максимальное значение для множества B : </p><input type="text" name="B_max" required="required	">
+		<input type="submit" name="submit">
+		<input type="reset">
+
+	</form><br><br>
+</body>
+</html>
+
